@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Web App - About</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html" class="active">About</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>About This Web Application</h1>
+        <p>Learn how this simple website demonstrates key web development concepts.</p>
+    </header>
+
+    <main>
+        <section class="about-content">
+            <h2>How This Website Works</h2>
+            
+            <div class="tech-explanation">
+                <div class="tech-item">
+                    <h3>HTML (HyperText Markup Language)</h3>
+                    <p>HTML provides the structure and content of web pages. It uses elements like <code>&lt;h1&gt;</code> for headings, <code>&lt;p&gt;</code> for paragraphs, and <code>&lt;div&gt;</code> for containers.</p>
+                    <ul>
+                        <li>Semantic elements organize content meaningfully</li>
+                        <li>Links connect different pages together</li>
+                        <li>Forms allow user input and interaction</li>
+                    </ul>
+                </div>
+
+                <div class="tech-item">
+                    <h3>CSS (Cascading Style Sheets)</h3>
+                    <p>CSS controls how the website looks - colors, fonts, spacing, and layout. It separates presentation from content.</p>
+                    <ul>
+                        <li>Selectors target specific HTML elements</li>
+                        <li>Properties define visual styles</li>
+                        <li>Responsive design adapts to different screen sizes</li>
+                    </ul>
+                </div>
+
+                <div class="tech-item">
+                    <h3>JavaScript</h3>
+                    <p>JavaScript adds interactivity and dynamic behavior. It can respond to user actions, modify content, and communicate with servers.</p>
+                    <ul>
+                        <li>Event listeners respond to clicks, typing, etc.</li>
+                        <li>DOM manipulation changes page content</li>
+                        <li>Variables store and manage data</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="demo-section">
+            <h2>Interactive Demo</h2>
+            <p>Click the button below to see JavaScript in action:</p>
+            <button id="demoBtn">Show Current Time</button>
+            <div id="timeDisplay"></div>
+            
+            <div class="code-example">
+                <h3>Sample Code Behind This Button:</h3>
+                <pre><code>document.getElementById('demoBtn').addEventListener('click', function() {
+    const now = new Date();
+    document.getElementById('timeDisplay').textContent = 
+        'Current time: ' + now.toLocaleTimeString();
+});</code></pre>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 My First Web App. Built for learning!</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Web App - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Welcome to My First Web Application!</h1>
+        <p>This is a simple two-page website to learn web development basics.</p>
+    </header>
+
+    <main>
+        <section class="intro">
+            <h2>What You'll Learn Here</h2>
+            <div class="features">
+                <div class="feature">
+                    <h3>HTML Structure</h3>
+                    <p>How web pages are built with HTML elements and tags.</p>
+                </div>
+                <div class="feature">
+                    <h3>CSS Styling</h3>
+                    <p>How to make websites look beautiful with colors, fonts, and layouts.</p>
+                </div>
+                <div class="feature">
+                    <h3>JavaScript Interactivity</h3>
+                    <p>How to add dynamic behavior and user interactions.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="interactive">
+            <h2>Try Some Interactivity!</h2>
+            <button id="colorBtn">Change Background Color</button>
+            <button id="counterBtn">Click Counter: <span id="counter">0</span></button>
+            
+            <div class="user-input">
+                <h3>Leave a Message</h3>
+                <input type="text" id="messageInput" placeholder="Type your message here...">
+                <button id="showMessage">Show Message</button>
+                <div id="messageDisplay"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 My First Web App. Built for learning!</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
