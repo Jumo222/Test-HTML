@@ -6,7 +6,7 @@
     <title>My First Web App - Home</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body id="top">
     <nav>
         <ul>
             <li><a href="index.html" class="active">Home</a></li>
@@ -19,8 +19,17 @@
         <p>This is a simple two-page website to learn web development basics.</p>
     </header>
 
+    <!-- Quick Navigation -->
+    <nav class="quick-nav">
+        <a href="#top">Top</a> |
+        <a href="#learn">Learn</a> |
+        <a href="#interactive">Interactive</a> |
+        <a href="#resources">Resources</a> |
+        <a href="#contact">Contact</a>
+    </nav>
+
     <main>
-        <section class="intro">
+        <section id="learn" class="intro">
             <h2>What You'll Learn Here</h2>
             <div class="features">
                 <div class="feature">
@@ -38,7 +47,7 @@
             </div>
         </section>
 
-        <section class="interactive">
+        <section id="interactive" class="interactive">
             <h2>Try Some Interactivity!</h2>
             <button id="colorBtn">Change Background Color</button>
             <button id="counterBtn">Click Counter: <span id="counter">0</span></button>
@@ -50,12 +59,34 @@
                 <div id="messageDisplay"></div>
             </div>
         </section>
+
+        <section id="resources" class="resources">
+            <h2>Learning Resources</h2>
+            <p>Here are some great places to continue learning web development:</p>
+            <ul>
+                <li><strong>MDN Web Docs:</strong> Comprehensive documentation for HTML, CSS, and JavaScript</li>
+                <li><strong>freeCodeCamp:</strong> Free interactive coding lessons</li>
+                <li><strong>CSS-Tricks:</strong> Great tutorials and examples for CSS</li>
+                <li><strong>JavaScript.info:</strong> In-depth JavaScript learning resource</li>
+            </ul>
+            <p>Remember: the best way to learn is by building projects and experimenting with code!</p>
+        </section>
+
+        <section id="contact" class="contact">
+            <h2>Get In Touch</h2>
+            <p>This is a learning project, but feel free to explore the code!</p>
+            <div class="contact-info">
+                <p><strong>Tip:</strong> Open your browser's Developer Tools (F12) to see how this page works behind the scenes.</p>
+                <p><strong>Challenge:</strong> Try modifying the CSS or JavaScript to customize this page.</p>
+            </div>
+        </section>
     </main>
 
     <footer>
         <p>&copy; 2025 My First Web App. Built for learning!</p>
+        <a href="#top" class="back-to-top">↑ Back to Top</a>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="dist/script.js"></script>
 </body>
 </html>

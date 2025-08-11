@@ -1,0 +1,23 @@
+{
+  "name": "test-html",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jumo222/Test-HTML.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Jumo222/Test-HTML/issues"
+  },
+  "homepage": "https://github.com/Jumo222/Test-HTML#readme"
+}
