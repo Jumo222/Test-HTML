@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (counterBtn && counterSpan) {
     let count = 0;
     counterBtn.addEventListener("click", function () {
-      count++;
+      count += 2;
       counterSpan.textContent = count.toString();
       // Add visual feedback
       counterBtn.classList.add("bounce");

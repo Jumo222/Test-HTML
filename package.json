@@ -5,8 +5,7 @@
   "main": "script.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -19,5 +18,10 @@
   "bugs": {
     "url": "https://github.com/Jumo222/Test-HTML/issues"
   },
-  "homepage": "https://github.com/Jumo222/Test-HTML#readme"
+  "homepage": "https://github.com/Jumo222/Test-HTML#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "@types/node": "^24.2.1",
+    "http-server": "^14.1.1"
+  }
 }
