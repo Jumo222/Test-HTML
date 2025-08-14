@@ -26,34 +26,64 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://localhost:3000',
+    baseURL: "http://localhost:3000",
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
   },
 
-  /* Configure projects for major browsers */
+  /* Configure projects for major browsers 
+  Viewports custom size ~4k 150%
+  */
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: {
+        ...devices["Desktop Chrome"],
+        viewport: {
+          width: 2560,
+          height: 1271,
+        },
+      },
     },
 
     {
       name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
+      use: {
+        ...devices["Desktop Firefox"],
+        viewport: {
+          width: 2560,
+          height: 1271,
+        },
+      },
     },
 
     {
       name: "webkit",
-      use: { ...devices["Desktop Safari"] },
+      use: {
+        ...devices["Desktop Safari"],
+        viewport: {
+          width: 2560,
+          height: 1271,
+        },
+      },
     },
 
     /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
+    {
+      name: "iPhone 15 - Webkit",
+      use: {
+        ...devices["iPhone 15"],
+      },
+    },
+
+    {
+      name: "S24 - Chrome",
+      use: {
+        ...devices["Galaxy S24"],
+      },
+    },
+
     // {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },
@@ -72,8 +102,8 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npx http-server . -p 3000 -s',
-    url: 'http://localhost:3000',
+    command: "npx http-server . -p 3000 -s",
+    url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
   },
 });

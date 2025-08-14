@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function (): void {
     let count: number = 0;
 
     counterBtn.addEventListener("click", function (): void {
-      count++;
+      count += 1;
       counterSpan.textContent = count.toString();
 
       // Add visual feedback
