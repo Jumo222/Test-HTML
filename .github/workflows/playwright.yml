@@ -1,0 +1,155 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps ${{ matrix.browser }}
+    
+    - name: Build TypeScript
+      run: npm run build
+    
+    - name: Run Playwright tests
+      run: npx playwright test --project=${{ matrix.browser }}
+      env:
+        CI: true
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report-${{ matrix.browser }}
+        path: playwright-report/
+        retention-days: 30
+    
+    - name: Upload test traces
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-traces-${{ matrix.browser }}
+        path: test-results/
+        retention-days: 30
+
+  visual-regression:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps chromium
+    
+    - name: Build TypeScript
+      run: npm run build
+    
+    - name: Run visual regression tests
+      run: npx playwright test visual-regression --project=chromium
+      env:
+        CI: true
+    
+    - name: Upload visual diff artifacts
+      uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: visual-regression-diffs
+        path: test-results/
+        retention-days: 30
+
+  accessibility:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps chromium
+    
+    - name: Build TypeScript
+      run: npm run build
+    
+    - name: Run accessibility tests
+      run: npx playwright test accessibility --project=chromium
+      env:
+        CI: true
+    
+    - name: Upload accessibility report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: accessibility-report
+        path: playwright-report/
+        retention-days: 30
+
+  performance:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps chromium
+    
+    - name: Build TypeScript
+      run: npm run build
+    
+    - name: Run performance tests
+      run: npx playwright test performance --project=chromium
+      env:
+        CI: true
+    
+    - name: Upload performance report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: performance-report
+        path: playwright-report/
+        retention-days: 30
