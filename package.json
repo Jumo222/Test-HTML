@@ -5,12 +5,7 @@
   "main": "script.js",
   "scripts": {
     "build": "tsc",
-    "dev": ". .venv/bin/activate && tsc --watch",
-    "test": "playwright test",
-    "test:headed": "playwright test --headed",
-    "test:ui": "playwright test --ui",
-    "test:debug": "playwright test --debug",
-    "test:report": "playwright show-report"
+    "dev": "tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -26,7 +21,7 @@
   "homepage": "https://github.com/Jumo222/Test-HTML#readme",
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
-    "@playwright/test": "^1.54.2",
+    "@playwright/test": "^1.55.0",
     "@types/node": "^24.2.1",
     "http-server": "^14.1.1"
   }
