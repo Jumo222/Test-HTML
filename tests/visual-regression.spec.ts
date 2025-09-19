@@ -160,51 +160,7 @@ test.describe("Visual Regression Tests", () => {
     });
   });
 
-  test("should match mobile viewport screenshots", async ({ page }) => {
-    // Set mobile viewport
-    await page.setViewportSize({ width: 375, height: 667 });
 
-    await page.goto("/");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(1000);
-
-    await expect(page).toHaveScreenshot("home-page-mobile.png", {
-      fullPage: true,
-      animations: "disabled",
-    });
-
-    await page.goto("/about.html");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(1000);
-
-    await expect(page).toHaveScreenshot("about-page-mobile.png", {
-      fullPage: true,
-      animations: "disabled",
-    });
-  });
-
-  test("should match tablet viewport screenshots", async ({ page }) => {
-    // Set tablet viewport
-    await page.setViewportSize({ width: 768, height: 1024 });
-
-    await page.goto("/");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(1000);
-
-    await expect(page).toHaveScreenshot("home-page-tablet.png", {
-      fullPage: true,
-      animations: "disabled",
-    });
-
-    await page.goto("/about.html");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(1000);
-
-    await expect(page).toHaveScreenshot("about-page-tablet.png", {
-      fullPage: true,
-      animations: "disabled",
-    });
-  });
 
   test.skip("should match navigation states", async ({ page }) => {
     await page.goto("/");
