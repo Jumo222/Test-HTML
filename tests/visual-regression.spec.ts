@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Visual Regression Tests", () => {
-  test.skip("should match home page screenshot", async ({ page }) => {
+  test("should match home page screenshot", async ({ page }) => {
     await page.goto("/");
 
     // Wait for page to fully load and animations to complete
@@ -159,8 +159,6 @@ test.describe("Visual Regression Tests", () => {
       animations: "disabled",
     });
   });
-
-
 
   test.skip("should match navigation states", async ({ page }) => {
     await page.goto("/");

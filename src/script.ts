@@ -155,6 +155,61 @@ document.addEventListener("DOMContentLoaded", function (): void {
     document.body.style.transition = "opacity 0.5s ease-in";
   }, 100);
 
+  // Addition calculator functionality
+  const calculateBtn: HTMLButtonElement | null = document.getElementById(
+    "calculateBtn"
+  ) as HTMLButtonElement | null;
+  const number1Input: HTMLInputElement | null = document.getElementById(
+    "number1"
+  ) as HTMLInputElement | null;
+  const number2Input: HTMLInputElement | null = document.getElementById(
+    "number2"
+  ) as HTMLInputElement | null;
+  const resultDiv: HTMLDivElement | null = document.getElementById(
+    "result"
+  ) as HTMLDivElement | null;
+
+  if (calculateBtn && number1Input && number2Input && resultDiv) {
+    calculateBtn.addEventListener("click", function (): void {
+      const num1: number = parseFloat(number1Input.value);
+      const num2: number = parseFloat(number2Input.value);
+
+      if (isNaN(num1) || isNaN(num2)) {
+        resultDiv.innerHTML = "<em>Please enter valid numbers in both fields!</em>";
+        resultDiv.style.backgroundColor = "#ffe8e8";
+        resultDiv.style.color = "#e74c3c";
+      } else {
+        const sum: number = num1 + num2;
+        resultDiv.innerHTML = `<strong>Result:</strong> ${num1} + ${num2} = ${sum}`;
+        resultDiv.style.backgroundColor = "#e8f6f3";
+        resultDiv.style.color = "#27ae60";
+      }
+
+      // Add fade-in effect
+      resultDiv.style.opacity = "0";
+      resultDiv.style.display = "block";
+      setTimeout((): void => {
+        resultDiv.style.opacity = "1";
+        resultDiv.style.transition = "opacity 0.3s ease";
+      }, 100);
+
+      // Add bounce animation to button
+      calculateBtn.classList.add("bounce");
+      setTimeout((): void => {
+        calculateBtn.classList.remove("bounce");
+      }, 500);
+    });
+
+    // Allow Enter key to trigger calculation
+    [number1Input, number2Input].forEach((input: HTMLInputElement): void => {
+      input.addEventListener("keypress", function (event: KeyboardEvent): void {
+        if (event.key === "Enter") {
+          calculateBtn.click();
+        }
+      });
+    });
+  }
+
   // Console message for developers
   console.log("🎉 Test Welcome to your first web application!");
   console.log(

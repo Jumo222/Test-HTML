@@ -34,7 +34,7 @@ test("full page screenshot of about page", async ({ page }, testInfo) => {
 
   // Take a full page screenshot
   await page.screenshot({
-    path: `Screenshot/${timestamp}_about-full-page-screenshot_${testInfo.project.name}.png`,
+    path: `Screenshot/${timestamp}_about-screenshot_${testInfo.project.name}.png`,
     fullPage: true,
   });
 });

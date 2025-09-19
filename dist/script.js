@@ -118,6 +118,48 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.style.opacity = "1";
         document.body.style.transition = "opacity 0.5s ease-in";
     }, 100);
+    // Addition calculator functionality
+    const calculateBtn = document.getElementById("calculateBtn");
+    const number1Input = document.getElementById("number1");
+    const number2Input = document.getElementById("number2");
+    const resultDiv = document.getElementById("result");
+    if (calculateBtn && number1Input && number2Input && resultDiv) {
+        calculateBtn.addEventListener("click", function () {
+            const num1 = parseFloat(number1Input.value);
+            const num2 = parseFloat(number2Input.value);
+            if (isNaN(num1) || isNaN(num2)) {
+                resultDiv.innerHTML = "<em>Please enter valid numbers in both fields!</em>";
+                resultDiv.style.backgroundColor = "#ffe8e8";
+                resultDiv.style.color = "#e74c3c";
+            }
+            else {
+                const sum = num1 + num2;
+                resultDiv.innerHTML = `<strong>Result:</strong> ${num1} + ${num2} = ${sum}`;
+                resultDiv.style.backgroundColor = "#e8f6f3";
+                resultDiv.style.color = "#27ae60";
+            }
+            // Add fade-in effect
+            resultDiv.style.opacity = "0";
+            resultDiv.style.display = "block";
+            setTimeout(() => {
+                resultDiv.style.opacity = "1";
+                resultDiv.style.transition = "opacity 0.3s ease";
+            }, 100);
+            // Add bounce animation to button
+            calculateBtn.classList.add("bounce");
+            setTimeout(() => {
+                calculateBtn.classList.remove("bounce");
+            }, 500);
+        });
+        // Allow Enter key to trigger calculation
+        [number1Input, number2Input].forEach((input) => {
+            input.addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    calculateBtn.click();
+                }
+            });
+        });
+    }
     // Console message for developers
     console.log("🎉 Test Welcome to your first web application!");
     console.log("💡 Open the browser developer tools to see this message and explore the code.");

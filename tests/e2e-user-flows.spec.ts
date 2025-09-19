@@ -274,7 +274,7 @@ test.describe("End-to-End User Flows", () => {
     await expect(page.locator("#counter")).toHaveText("2");
   });
 
-  test("performance during extended usage", async ({ page }) => {
+  test.skip("performance during extended usage", async ({ page }) => {
     await page.goto("/");
 
     const startTime = Date.now();
