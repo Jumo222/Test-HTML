@@ -1,29 +1,46 @@
 {
-  "name": "test-html",
+  "name": "test-html-react",
   "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
+  "description": "React migration of learning web app",
+  "main": "src/index.tsx",
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "test": "playwright test"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Jumo222/Test-HTML.git"
   },
-  "keywords": [],
+  "keywords": ["react", "typescript", "vite", "learning"],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/Jumo222/Test-HTML/issues"
   },
   "homepage": "https://github.com/Jumo222/Test-HTML#readme",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.1"
+  },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2",
     "@playwright/test": "^1.55.0",
     "@types/node": "^24.2.1",
+    "@types/react": "^18.2.56",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "dotenv": "^17.2.1",
-    "http-server": "^14.1.1"
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.4"
   }
 }
