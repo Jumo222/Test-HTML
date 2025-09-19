@@ -2,7 +2,7 @@ import { test } from "@playwright/test";
 import * as fs from "fs";
 import * as path from "path";
 
-test("take full page screenshot of about page", async ({ page }, testInfo) => {
+test("full page screenshot of about page", async ({ page }, testInfo) => {
   await page.goto("/about.html");
 
   // Wait for the page to fully load
@@ -10,11 +10,11 @@ test("take full page screenshot of about page", async ({ page }, testInfo) => {
 
   // Delete previous about screenshots for this project
   const screenshotDir = "Screenshot";
-  const pattern = `_about-screenshot_${testInfo.project.name}.png`;
+  const pattern = `_about-full-page-screenshot_${testInfo.project.name}.png`;
 
   if (fs.existsSync(screenshotDir)) {
     const files = fs.readdirSync(screenshotDir);
-    files.forEach(file => {
+    files.forEach((file) => {
       if (file.includes(pattern)) {
         fs.unlinkSync(path.join(screenshotDir, file));
       }
@@ -34,12 +34,12 @@ test("take full page screenshot of about page", async ({ page }, testInfo) => {
 
   // Take a full page screenshot
   await page.screenshot({
-    path: `Screenshot/${timestamp}_about-screenshot_${testInfo.project.name}.png`,
+    path: `Screenshot/${timestamp}_about-full-page-screenshot_${testInfo.project.name}.png`,
     fullPage: true,
   });
 });
 
-test("take full page screenshot of index page", async ({ page }, testInfo) => {
+test("full page screenshot of index page", async ({ page }, testInfo) => {
   await page.goto("/index.html");
 
   // Wait for the page to fully load
@@ -51,7 +51,7 @@ test("take full page screenshot of index page", async ({ page }, testInfo) => {
 
   if (fs.existsSync(screenshotDir)) {
     const files = fs.readdirSync(screenshotDir);
-    files.forEach(file => {
+    files.forEach((file) => {
       if (file.includes(pattern)) {
         fs.unlinkSync(path.join(screenshotDir, file));
       }
