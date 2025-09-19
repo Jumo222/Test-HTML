@@ -41,7 +41,7 @@ export default defineConfig({
   */
   projects: [
     {
-      name: "chromium",
+      name: "Chromium_Desktop",
       use: {
         ...devices["Desktop Chrome"],
         viewport: {
@@ -52,7 +52,7 @@ export default defineConfig({
     },
 
     {
-      name: "firefox",
+      name: "Firefox_Desktop",
       use: {
         ...devices["Desktop Firefox"],
         viewport: {
@@ -63,7 +63,7 @@ export default defineConfig({
     },
 
     {
-      name: "webkit",
+      name: "Webkit_Desktop",
       use: {
         ...devices["Desktop Safari"],
         viewport: {
@@ -75,14 +75,14 @@ export default defineConfig({
 
     /* Test against mobile viewports. */
     {
-      name: "iPhone 15 - Webkit",
+      name: "iPhone_15_Webkit",
       use: {
         ...devices["iPhone 15"],
       },
     },
 
     {
-      name: "S24 - Chrome",
+      name: "Samsung_S24_Chrome",
       use: {
         ...devices["Galaxy S24"],
       },
