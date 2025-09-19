@@ -1,4 +1,5 @@
 #automatetes tests and shows them in github when pushing or pulling commits, pretty cool not needed here though
+#sends mails too
 name: Playwright Tests
 
 on:
