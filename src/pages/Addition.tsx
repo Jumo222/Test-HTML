@@ -1,30 +1,33 @@
-import { useState } from 'react'
+import { useState } from "react";
 
 const Addition: React.FC = () => {
-  const [number1, setNumber1] = useState<string>('')
-  const [number2, setNumber2] = useState<string>('')
-  const [result, setResult] = useState<string>('')
-  const [resultStyle, setResultStyle] = useState({ backgroundColor: '', color: '' })
+  const [number1, setNumber1] = useState<string>("");
+  const [number2, setNumber2] = useState<string>("");
+  const [result, setResult] = useState<string>("");
+  const [resultStyle, setResultStyle] = useState({
+    backgroundColor: "",
+    color: "",
+  });
 
   const calculateSum = () => {
-    const num1 = parseFloat(number1)
-    const num2 = parseFloat(number2)
+    const num1 = parseFloat(number1);
+    const num2 = parseFloat(number2);
 
     if (isNaN(num1) || isNaN(num2)) {
-      setResult('Please enter valid numbers in both fields!')
-      setResultStyle({ backgroundColor: '#ffe8e8', color: '#e74c3c' })
+      setResult("Please enter valid numbers in both fields!");
+      setResultStyle({ backgroundColor: "#ffe8e8", color: "#e74c3c" });
     } else {
-      const sum = num1 + num2
-      setResult(`Result: ${num1} + ${num2} = ${sum}`)
-      setResultStyle({ backgroundColor: '#e8f6f3', color: '#27ae60' })
+      const sum = num1 + num2;
+      setResult(`Result: ${num1} + ${num2} = ${sum}`);
+      setResultStyle({ backgroundColor: "#e8f6f3", color: "#27ae60" });
     }
-  }
+  };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      calculateSum()
+    if (event.key === "Enter") {
+      calculateSum();
     }
-  }
+  };
 
   return (
     <>
@@ -45,7 +48,7 @@ const Addition: React.FC = () => {
                 id="number1"
                 value={number1}
                 onChange={(e) => setNumber1(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
                 placeholder="Enter first number"
               />
             </div>
@@ -57,7 +60,7 @@ const Addition: React.FC = () => {
                 id="number2"
                 value={number2}
                 onChange={(e) => setNumber2(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyPress}
                 placeholder="Enter second number"
               />
             </div>
@@ -69,11 +72,11 @@ const Addition: React.FC = () => {
                 className="result"
                 style={{
                   ...resultStyle,
-                  display: 'block',
-                  marginTop: '1.5rem',
-                  padding: '1rem',
-                  borderRadius: '5px',
-                  fontWeight: 'bold'
+                  display: "block",
+                  marginTop: "1.5rem",
+                  padding: "1rem",
+                  borderRadius: "5px",
+                  fontWeight: "bold",
                 }}
               >
                 {result}
@@ -83,7 +86,7 @@ const Addition: React.FC = () => {
         </section>
       </main>
     </>
-  )
-}
+  );
+};
 
-export default Addition
+export default Addition;
