@@ -29,7 +29,11 @@ const InteractiveSection: React.FC = () => {
   };
 
   return (
-    <section id="interactive" className="interactive" style={{ backgroundColor }}>
+    <section
+      id="interactive"
+      className="interactive"
+      style={{ backgroundColor }}
+    >
       <h2>Try Some Interactivity!</h2>
       <button onClick={changeBackgroundColor}>Change Background Color</button>
       {/* hiermit wird die Teilfunktion changeBackgroundColor über line 5 in useInteractivity Funktion aufgerufen*/}
@@ -43,7 +47,7 @@ const InteractiveSection: React.FC = () => {
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyPress} //wenn jemand taste drückt gut handleKeypress ob enter gedrückt wurde
           placeholder="Type your message here..."
         />
         <button onClick={handleShowMessage}>Show Message</button>
