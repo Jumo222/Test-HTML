@@ -17,7 +17,7 @@ test.describe("Performance Tests", () => {
   test("should load about page within acceptable time", async ({ page }) => {
     const startTime = Date.now();
 
-    await page.goto("/about.html", { waitUntil: "networkidle" });
+    await page.goto("/about", { waitUntil: "networkidle" });
 
     const loadTime = Date.now() - startTime;
 
@@ -193,8 +193,8 @@ test.describe("Performance Tests", () => {
     const failedRequests = responses.filter((status) => status >= 400);
     expect(failedRequests).toHaveLength(0);
 
-    // Check that we don't have excessive number of requests
-    expect(requests.length).toBeLessThan(20);
+    // Check that we don't have excessive number of requests (React apps may have more due to HMR in dev)
+    expect(requests.length).toBeLessThan(50);
 
     console.log(`Total requests: ${requests.length}`);
     console.log(`Failed requests: ${failedRequests.length}`);
@@ -291,30 +291,29 @@ test.describe("Performance Tests", () => {
     await page.goto("/");
     await page.waitForLoadState("networkidle");
 
-    // Check that event listeners are properly attached
-    const listenerCount = await page.evaluate(() => {
-      // Count elements that should have event listeners
-      const elementsWithListeners = [
-        document.getElementById("colorBtn"),
-        document.getElementById("counterBtn"),
-        document.getElementById("showMessage"),
-        document.getElementById("messageInput"),
-      ].filter((el) => el !== null);
+    // Check that React components are properly rendered and interactive
+    const colorBtn = page.locator('button:has-text("Change Background Color")');
+    const counterBtn = page.locator('button:has-text("Click Counter:")');
 
-      return elementsWithListeners.length;
-    });
-
-    expect(listenerCount).toBeGreaterThan(0);
+    await expect(colorBtn).toBeVisible();
+    await expect(counterBtn).toBeVisible();
 
     // Verify no memory leaks by navigating and returning
-    await page.goto("/about.html");
+    await page.goto("/about");
     await page.goto("/");
 
-    // Elements should still be interactive after navigation
-    await page.locator("#colorBtn").click();
-    await expect(page.locator("body")).not.toHaveCSS(
-      "background-color",
-      "rgb(244, 244, 244)"
+    // Elements should still be interactive after navigation (React re-mounts components)
+    const interactiveSection = page.locator("#interactive");
+    const initialBg = await interactiveSection.evaluate(
+      (el) => getComputedStyle(el).backgroundColor
     );
+
+    await colorBtn.click();
+    await page.waitForTimeout(100);
+
+    const newBg = await interactiveSection.evaluate(
+      (el) => getComputedStyle(el).backgroundColor
+    );
+    expect(newBg).not.toBe(initialBg);
   });
 });

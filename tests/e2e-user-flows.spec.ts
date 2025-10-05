@@ -16,13 +16,13 @@ test.describe("End-to-End User Flows", () => {
     await expect(features).toHaveCount(3);
 
     // User interacts with the color changer
-    const colorBtn = page.locator("#colorBtn");
+    const colorBtn = page.locator('button:has-text("Change Background Color")');
     await colorBtn.click();
     await page.waitForTimeout(100);
 
     // User tries the click counter multiple times
-    const counterBtn = page.locator("#counterBtn");
-    const counterSpan = page.locator("#counter");
+    const counterBtn = page.locator('button:has-text("Click Counter:")');
+    const counterSpan = counterBtn.locator("span");
 
     for (let i = 1; i <= 3; i++) {
       await counterBtn.click();
@@ -30,43 +30,42 @@ test.describe("End-to-End User Flows", () => {
     }
 
     // User leaves a message
-    const messageInput = page.locator("#messageInput");
-    const showMessageBtn = page.locator("#showMessage");
-    const messageDisplay = page.locator("#messageDisplay");
+    const messageInput = page.locator('input[placeholder="Type your message here..."]');
+    const showMessageBtn = page.locator('.user-input button:has-text("Show Message")');
+    const messageDisplay = page.locator(".message-display");
 
     await messageInput.fill("This is my first message!");
     await showMessageBtn.click();
     await expect(messageDisplay).toContainText("This is my first message!");
 
     // User navigates to About page to learn more
-    await page.click('nav a[href="about.html"]');
-    await expect(page).toHaveTitle("My First Web App - About");
+    await page.click('nav a:has-text("About")');
+    await expect(page).toHaveURL('/about');
 
     // User reads about the technologies
     const techItems = page.locator(".tech-item");
     await expect(techItems).toHaveCount(3);
 
     // User tries the time demo
-    const demoBtn = page.locator("#demoBtn");
-    const timeDisplay = page.locator("#timeDisplay");
+    const demoBtn = page.locator('button:has-text("Show Current Time")');
 
     await demoBtn.click();
+    const timeDisplay = page.locator('div').filter({ hasText: /Current Date:/ }).first();
     await expect(timeDisplay).toBeVisible();
     await expect(timeDisplay).toContainText("Current Date:");
 
     // User returns to homepage
-    await page.click('nav a[href="index.html"]');
-    await expect(page).toHaveTitle("My First Web App - Home");
+    await page.click('nav a:has-text("Home")');
+    await expect(page).toHaveURL('/');
   });
 
   test("power user interaction flow", async ({ page }) => {
     await page.goto("/");
 
     // Power user quickly tests all interactive elements
-    const colorBtn = page.locator("#colorBtn");
-    const counterBtn = page.locator("#counterBtn");
-    const messageInput = page.locator("#messageInput");
-    const showMessageBtn = page.locator("#showMessage");
+    const colorBtn = page.locator('button:has-text("Change Background Color")');
+    const counterBtn = page.locator('button:has-text("Click Counter:")');
+    const messageInput = page.locator('input[placeholder="Type your message here..."]');
 
     // Rapidly change colors
     for (let i = 0; i < 5; i++) {
@@ -74,17 +73,11 @@ test.describe("End-to-End User Flows", () => {
       await page.waitForTimeout(50);
     }
 
-    // Click counter to test different color states
+    // Click counter multiple times
     for (let i = 0; i < 12; i++) {
       await counterBtn.click();
       await page.waitForTimeout(30);
     }
-
-    // Verify counter reached red state
-    const counterBtnStyle = await counterBtn.evaluate(
-      (el) => el.style.backgroundColor
-    );
-    expect(counterBtnStyle).toBe("rgb(231, 76, 60)");
 
     // Test message functionality with different inputs
     const messages = ["Short", "This is a longer message to test", "123!@#"];
@@ -92,15 +85,15 @@ test.describe("End-to-End User Flows", () => {
     for (const message of messages) {
       await messageInput.fill(message);
       await messageInput.press("Enter");
-      await expect(page.locator("#messageDisplay")).toContainText(message);
+      await expect(page.locator(".message-display")).toContainText(message);
       await page.waitForTimeout(100);
     }
 
     // Navigate between pages multiple times
     for (let i = 0; i < 3; i++) {
-      await page.click('nav a[href="about.html"]');
-      await page.click("#demoBtn");
-      await page.click('nav a[href="index.html"]');
+      await page.click('nav a:has-text("About")');
+      await page.click('button:has-text("Show Current Time")');
+      await page.click('nav a:has-text("Home")');
     }
   });
 
@@ -110,34 +103,34 @@ test.describe("End-to-End User Flows", () => {
     // User navigating with keyboard only
     await page.keyboard.press("Tab"); // First navigation link
     await page.keyboard.press("Tab"); // Second navigation link
-    await page.keyboard.press("Tab"); // First quick nav link
+    await page.keyboard.press("Tab"); // Third navigation link
 
     // Navigate using keyboard to interactive section
-    await page.keyboard.press("Tab");
-    await page.keyboard.press("Tab");
-    await page.keyboard.press("Tab");
+    for (let i = 0; i < 5; i++) {
+      await page.keyboard.press("Tab");
+    }
 
     // User reaches color button and activates with Enter
-    const colorBtn = page.locator("#colorBtn");
+    const colorBtn = page.locator('button:has-text("Change Background Color")');
     await colorBtn.focus();
     await page.keyboard.press("Enter");
 
     // User navigates to counter button
     await page.keyboard.press("Tab");
-    const counterBtn = page.locator("#counterBtn");
+    const counterBtn = page.locator('button:has-text("Click Counter:")');
     await expect(counterBtn).toBeFocused();
     await page.keyboard.press("Enter");
 
     // User navigates to message input
     await page.keyboard.press("Tab");
-    const messageInput = page.locator("#messageInput");
+    const messageInput = page.locator('input[placeholder="Type your message here..."]');
     await expect(messageInput).toBeFocused();
 
     // User types message and uses Enter to submit
     await messageInput.type("Keyboard navigation test");
     await page.keyboard.press("Enter");
 
-    await expect(page.locator("#messageDisplay")).toContainText(
+    await expect(page.locator(".message-display")).toContainText(
       "Keyboard navigation test"
     );
   });
@@ -153,49 +146,50 @@ test.describe("End-to-End User Flows", () => {
     await page.goto("/");
 
     // Mobile user taps through elements
-    await page.tap("#colorBtn");
-    await page.tap("#counterBtn");
-    await page.tap("#counterBtn");
-    await page.tap("#counterBtn");
+    await page.tap('button:has-text("Change Background Color")');
+    await page.tap('button:has-text("Click Counter:")');
+    await page.tap('button:has-text("Click Counter:")');
+    await page.tap('button:has-text("Click Counter:")');
 
     // Mobile user types in message field
-    await page.tap("#messageInput");
-    await page.fill("#messageInput", "Mobile test message");
-    await page.tap("#showMessage");
+    await page.tap('input[placeholder="Type your message here..."]');
+    await page.fill('input[placeholder="Type your message here..."]', "Mobile test message");
+    await page.tap('.user-input button:has-text("Show Message")');
 
-    await expect(page.locator("#messageDisplay")).toContainText(
+    await expect(page.locator(".message-display")).toContainText(
       "Mobile test message"
     );
 
     // Mobile user scrolls and navigates
-    await page.tap('nav a[href="about.html"]');
-    await expect(page).toHaveTitle("My First Web App - About");
+    await page.tap('nav a:has-text("About")');
+    await expect(page).toHaveURL('/about');
 
     // Scroll down on mobile
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
 
     // Test mobile interaction with demo button
-    await page.tap("#demoBtn");
-    await expect(page.locator("#timeDisplay")).toBeVisible();
+    await page.tap('button:has-text("Show Current Time")');
+    const timeDisplay = page.locator('div').filter({ hasText: /Current Date:/ }).first();
+    await expect(timeDisplay).toBeVisible();
   });
 
   test("error recovery user flow", async ({ page }) => {
     await page.goto("/");
 
     // User tries to submit empty message
-    const showMessageBtn = page.locator("#showMessage");
+    const showMessageBtn = page.locator('.user-input button:has-text("Show Message")');
     await showMessageBtn.click();
 
-    await expect(page.locator("#messageDisplay")).toContainText(
+    await expect(page.locator(".message-display")).toContainText(
       "Please enter a message first!"
     );
 
     // User corrects the error by entering a message
-    const messageInput = page.locator("#messageInput");
+    const messageInput = page.locator('input[placeholder="Type your message here..."]');
     await messageInput.fill("Now I entered a message");
     await showMessageBtn.click();
 
-    await expect(page.locator("#messageDisplay")).toContainText(
+    await expect(page.locator(".message-display")).toContainText(
       "Now I entered a message"
     );
 
@@ -203,7 +197,7 @@ test.describe("End-to-End User Flows", () => {
     await messageInput.fill("   ");
     await showMessageBtn.click();
 
-    await expect(page.locator("#messageDisplay")).toContainText(
+    await expect(page.locator(".message-display")).toContainText(
       "Please enter a message first!"
     );
 
@@ -211,7 +205,7 @@ test.describe("End-to-End User Flows", () => {
     await messageInput.fill("Final valid message");
     await showMessageBtn.click();
 
-    await expect(page.locator("#messageDisplay")).toContainText(
+    await expect(page.locator(".message-display")).toContainText(
       "Final valid message"
     );
   });
@@ -221,27 +215,30 @@ test.describe("End-to-End User Flows", () => {
     await page.goto("/");
 
     // Interact with multiple features on home page
-    await page.click("#colorBtn");
-    await page.click("#counterBtn");
-    await page.fill("#messageInput", "Cross-page test");
-    await page.click("#showMessage");
+    await page.click('button:has-text("Change Background Color")');
+    await page.click('button:has-text("Click Counter:")');
+    await page.fill('input[placeholder="Type your message here..."]', "Cross-page test");
+    await page.click('.user-input button:has-text("Show Message")');
 
     // Navigate to about page
-    await page.click('nav a[href="about.html"]');
+    await page.click('nav a:has-text("About")');
 
     // Interact with about page demo
-    await page.click("#demoBtn");
-    await expect(page.locator("#timeDisplay")).toBeVisible();
+    await page.click('button:has-text("Show Current Time")');
+    const timeDisplay = page.locator('div').filter({ hasText: /Current Date:/ }).first();
+    await expect(timeDisplay).toBeVisible();
 
     // Navigate back to home page
-    await page.click('nav a[href="index.html"]');
+    await page.click('nav a:has-text("Home")');
 
-    // Verify home page state is reset (counter should still show previous value)
-    await expect(page.locator("#counter")).toHaveText("0");
+    // Verify home page state is reset (React unmounts/remounts components)
+    const counterBtn = page.locator('button:has-text("Click Counter:")');
+    const counterSpan = counterBtn.locator("span");
+    await expect(counterSpan).toHaveText("0");
 
     // Continue interactions
-    await page.click("#counterBtn");
-    await expect(page.locator("#counter")).toHaveText("1");
+    await counterBtn.click();
+    await expect(counterSpan).toHaveText("1");
   });
 
   test("session continuity flow", async ({ page }) => {
@@ -249,13 +246,13 @@ test.describe("End-to-End User Flows", () => {
 
     // User performs various actions
     const actions = [
-      () => page.click("#colorBtn"),
-      () => page.click("#counterBtn"),
-      () => page.fill("#messageInput", "Session test"),
-      () => page.click("#showMessage"),
-      () => page.click('nav a[href="about.html"]'),
-      () => page.click("#demoBtn"),
-      () => page.click('nav a[href="index.html"]'),
+      () => page.click('button:has-text("Change Background Color")'),
+      () => page.click('button:has-text("Click Counter:")'),
+      () => page.fill('input[placeholder="Type your message here..."]', "Session test"),
+      () => page.click('.user-input button:has-text("Show Message")'),
+      () => page.click('nav a:has-text("About")'),
+      () => page.click('button:has-text("Show Current Time")'),
+      () => page.click('nav a:has-text("Home")'),
     ];
 
     // Perform actions with small delays to simulate realistic usage
@@ -264,14 +261,16 @@ test.describe("End-to-End User Flows", () => {
       await page.waitForTimeout(200);
     }
 
-    // Verify final state
-    await expect(page.locator("#counter")).toHaveText("0");
-    await expect(page.locator("#messageDisplay")).toContainText("");
+    // Verify final state (React resets state on remount)
+    const counterBtn = page.locator('button:has-text("Click Counter:")');
+    const counterSpan = counterBtn.locator("span");
+    await expect(counterSpan).toHaveText("0");
+    await expect(page.locator(".message-display")).toContainText("");
 
     // User continues session with more interactions
-    await page.click("#counterBtn");
-    await page.click("#counterBtn");
-    await expect(page.locator("#counter")).toHaveText("2");
+    await counterBtn.click();
+    await counterBtn.click();
+    await expect(counterSpan).toHaveText("2");
   });
 
   test.skip("performance during extended usage", async ({ page }) => {
@@ -282,20 +281,20 @@ test.describe("End-to-End User Flows", () => {
     // Simulate extended usage session
     for (let i = 0; i < 10; i++) {
       // Color changes
-      await page.click("#colorBtn");
+      await page.click('button:has-text("Change Background Color")');
 
       // Counter clicks
-      await page.click("#counterBtn");
+      await page.click('button:has-text("Click Counter:")');
 
       // Message interactions
-      await page.fill("#messageInput", `Message ${i}`);
-      await page.click("#showMessage");
+      await page.fill('input[placeholder="Type your message here..."]', `Message ${i}`);
+      await page.click('.user-input button:has-text("Show Message")');
 
       // Page navigation
       if (i % 3 === 0) {
-        await page.click('nav a[href="about.html"]');
-        await page.click("#demoBtn");
-        await page.click('nav a[href="index.html"]');
+        await page.click('nav a:has-text("About")');
+        await page.click('button:has-text("Show Current Time")');
+        await page.click('nav a:has-text("Home")');
       }
 
       await page.waitForTimeout(50);
@@ -312,8 +311,10 @@ test.describe("End-to-End User Flows", () => {
         : 10000;
     expect(totalTime).toBeLessThan(timeoutMs);
 
-    // Verify final state is correct
-    await expect(page.locator("#counter")).toHaveText("0");
+    // Verify final state is correct (React resets on remount)
+    const counterBtn = page.locator('button:has-text("Click Counter:")');
+    const counterSpan = counterBtn.locator("span");
+    await expect(counterSpan).toHaveText("0");
 
     console.log(`Extended usage session completed in ${totalTime}ms`);
   });

@@ -16,7 +16,7 @@ test.describe("Visual Regression Tests", () => {
   });
 
   test("should match about page screenshot", async ({ page }) => {
-    await page.goto("/about.html");
+    await page.goto("/about");
 
     // Wait for page to fully load
     await page.waitForLoadState("networkidle");
@@ -35,7 +35,7 @@ test.describe("Visual Regression Tests", () => {
     await page.goto("/");
     await page.waitForLoadState("networkidle");
 
-    const colorBtn = page.locator("#colorBtn");
+    const colorBtn = page.locator('button:has-text("Change Background Color")');
 
     // Test different background color states
     for (let i = 1; i <= 3; i++) {
@@ -53,7 +53,7 @@ test.describe("Visual Regression Tests", () => {
     await page.goto("/");
     await page.waitForLoadState("networkidle");
 
-    const counterBtn = page.locator("#counterBtn");
+    const counterBtn = page.locator('button:has-text("Click Counter:")');
 
     // Take screenshot at count 0
     await expect(page.locator("#interactive")).toHaveScreenshot(
@@ -63,27 +63,27 @@ test.describe("Visual Regression Tests", () => {
       }
     );
 
-    // Click 6 times to get orange color
+    // Click 6 times (React version doesn't change colors based on count)
     for (let i = 0; i < 6; i++) {
       await counterBtn.click();
       await page.waitForTimeout(100);
     }
 
     await expect(page.locator("#interactive")).toHaveScreenshot(
-      "counter-state-6-orange.png",
+      "counter-state-6.png",
       {
         animations: "disabled",
       }
     );
 
-    // Click 6 more times to get red color (total 12)
+    // Click 6 more times (total 12)
     for (let i = 0; i < 6; i++) {
       await counterBtn.click();
       await page.waitForTimeout(100);
     }
 
     await expect(page.locator("#interactive")).toHaveScreenshot(
-      "counter-state-12-red.png",
+      "counter-state-12.png",
       {
         animations: "disabled",
       }
@@ -94,8 +94,8 @@ test.describe("Visual Regression Tests", () => {
     await page.goto("/");
     await page.waitForLoadState("networkidle");
 
-    const messageInput = page.locator("#messageInput");
-    const showMessageBtn = page.locator("#showMessage");
+    const messageInput = page.locator('input[placeholder="Type your message here..."]');
+    const showMessageBtn = page.locator('.user-input button:has-text("Show Message")');
     const userInputSection = page.locator(".user-input");
 
     // Test empty message error state

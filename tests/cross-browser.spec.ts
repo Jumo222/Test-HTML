@@ -10,31 +10,31 @@ test.describe("Cross-Browser Compatibility Tests", () => {
     console.log(`Testing on ${browserName}`);
 
     // Test basic functionality works the same across browsers
-    const colorBtn = page.locator("#colorBtn");
-    const body = page.locator("body");
+    const colorBtn = page.locator('button:has-text("Change Background Color")');
+    const interactiveSection = page.locator("#interactive");
 
-    const initialBgColor = await body.evaluate(
+    const initialBgColor = await interactiveSection.evaluate(
       (el) => getComputedStyle(el).backgroundColor
     );
     await colorBtn.click();
     await page.waitForTimeout(100);
 
-    const newBgColor = await body.evaluate(
+    const newBgColor = await interactiveSection.evaluate(
       (el) => getComputedStyle(el).backgroundColor
     );
     expect(newBgColor).not.toBe(initialBgColor);
 
     // Test counter functionality
-    const counterBtn = page.locator("#counterBtn");
-    const counterSpan = page.locator("#counter");
+    const counterBtn = page.locator('button:has-text("Click Counter:")');
+    const counterSpan = counterBtn.locator("span");
 
     await counterBtn.click();
     await expect(counterSpan).toHaveText("1");
 
     // Test message functionality
-    const messageInput = page.locator("#messageInput");
-    const showMessageBtn = page.locator("#showMessage");
-    const messageDisplay = page.locator("#messageDisplay");
+    const messageInput = page.locator('input[placeholder="Type your message here..."]');
+    const showMessageBtn = page.locator('.user-input button:has-text("Show Message")');
+    const messageDisplay = page.locator(".message-display");
 
     await messageInput.fill("Cross-browser test");
     await showMessageBtn.click();
@@ -47,12 +47,20 @@ test.describe("Cross-Browser Compatibility Tests", () => {
   }) => {
     await page.goto("/");
 
-    // Test CSS transitions and animations work
-    const colorBtn = page.locator("#colorBtn");
-    await colorBtn.click();
+    // Test CSS transitions work - color changing
+    const colorBtn = page.locator('button:has-text("Change Background Color")');
+    const interactiveSection = page.locator("#interactive");
 
-    // Check that bounce class is applied (animation support)
-    await expect(colorBtn).toHaveClass(/bounce/);
+    const initialBgColor = await interactiveSection.evaluate(
+      (el) => getComputedStyle(el).backgroundColor
+    );
+    await colorBtn.click();
+    await page.waitForTimeout(100);
+
+    const newBgColor = await interactiveSection.evaluate(
+      (el) => getComputedStyle(el).backgroundColor
+    );
+    expect(newBgColor).not.toBe(initialBgColor);
 
     // Test CSS transforms on hover (for feature cards)
     const featureCards = page.locator(".feature");
@@ -74,28 +82,22 @@ test.describe("Cross-Browser Compatibility Tests", () => {
   }) => {
     await page.goto("/");
 
-    // Test that TypeScript compiled JavaScript works
-    // This tests arrow functions, const/let, template literals, etc.
-    const consoleMessages: string[] = [];
-    page.on("console", (msg) => {
-      if (msg.type() === "log") {
-        consoleMessages.push(msg.text());
-      }
-    });
+    // Test that React/TypeScript compiled JavaScript works by verifying interactivity
+    const counterBtn = page.locator('button:has-text("Click Counter:")');
+    const counterSpan = counterBtn.locator("span");
 
-    await page.reload();
-    await page.waitForTimeout(500);
+    // If modern JS features work, this will work
+    await counterBtn.click();
+    await expect(counterSpan).toHaveText("1");
 
-    // Should have console messages from the script
-    expect(consoleMessages.length).toBeGreaterThan(0);
+    // Test message functionality which uses modern JS
+    const messageInput = page.locator('input[placeholder="Type your message here..."]');
+    const showMessageBtn = page.locator('.user-input button:has-text("Show Message")');
+    const messageDisplay = page.locator(".message-display");
 
-    // No JavaScript errors should occur
-    const errors = consoleMessages.filter(
-      (msg) =>
-        msg.toLowerCase().includes("error") ||
-        msg.toLowerCase().includes("uncaught")
-    );
-    expect(errors).toHaveLength(0);
+    await messageInput.fill("Modern JS test");
+    await showMessageBtn.click();
+    await expect(messageDisplay).toContainText("Modern JS test");
   });
 
   test("should handle DOM manipulation consistently", async ({
@@ -105,9 +107,9 @@ test.describe("Cross-Browser Compatibility Tests", () => {
     await page.goto("/");
 
     // Test element selection and manipulation
-    const messageInput = page.locator("#messageInput");
-    const showMessageBtn = page.locator("#showMessage");
-    const messageDisplay = page.locator("#messageDisplay");
+    const messageInput = page.locator('input[placeholder="Type your message here..."]');
+    const showMessageBtn = page.locator('.user-input button:has-text("Show Message")');
+    const messageDisplay = page.locator(".message-display");
 
     // Test DOM content modification
     await messageInput.fill("DOM test message");
@@ -131,8 +133,8 @@ test.describe("Cross-Browser Compatibility Tests", () => {
     await page.goto("/");
 
     // Test click events
-    const counterBtn = page.locator("#counterBtn");
-    const counterSpan = page.locator("#counter");
+    const counterBtn = page.locator('button:has-text("Click Counter:")');
+    const counterSpan = counterBtn.locator("span");
 
     for (let i = 1; i <= 3; i++) {
       await counterBtn.click();
@@ -140,11 +142,11 @@ test.describe("Cross-Browser Compatibility Tests", () => {
     }
 
     // Test keyboard events
-    const messageInput = page.locator("#messageInput");
+    const messageInput = page.locator('input[placeholder="Type your message here..."]');
     await messageInput.fill("Keyboard test");
     await messageInput.press("Enter");
 
-    await expect(page.locator("#messageDisplay")).toContainText(
+    await expect(page.locator(".message-display")).toContainText(
       "Keyboard test"
     );
 
@@ -216,9 +218,10 @@ test.describe("Cross-Browser Compatibility Tests", () => {
     await expect(quickNav).toBeVisible();
 
     // All interactive elements should remain functional
-    await page.click("#colorBtn");
-    await page.click("#counterBtn");
-    await expect(page.locator("#counter")).toHaveText("1");
+    await page.click('button:has-text("Change Background Color")');
+    await page.click('button:has-text("Click Counter:")');
+    const counterSpan = page.locator('button:has-text("Click Counter:")').locator("span");
+    await expect(counterSpan).toHaveText("1");
   });
 
   test("should handle form inputs consistently", async ({
@@ -227,7 +230,7 @@ test.describe("Cross-Browser Compatibility Tests", () => {
   }) => {
     await page.goto("/");
 
-    const messageInput = page.locator("#messageInput");
+    const messageInput = page.locator('input[placeholder="Type your message here..."]');
 
     // Test text input
     await messageInput.fill("Browser compatibility test");
@@ -248,14 +251,14 @@ test.describe("Cross-Browser Compatibility Tests", () => {
     page,
     browserName,
   }) => {
-    await page.goto("/about.html");
+    await page.goto("/about");
 
-    const demoBtn = page.locator("#demoBtn");
-    const timeDisplay = page.locator("#timeDisplay");
+    const demoBtn = page.locator('button:has-text("Show Current Time")');
 
     await demoBtn.click();
 
     // Check that date object creation and formatting works
+    const timeDisplay = page.locator('div').filter({ hasText: /Current Date:/ }).first();
     await expect(timeDisplay).toBeVisible();
     const timeContent = await timeDisplay.textContent();
 
@@ -292,11 +295,11 @@ test.describe("Cross-Browser Compatibility Tests", () => {
   }) => {
     await page.goto("/");
 
-    // Test that CSS custom properties (CSS variables) work if used
-    const body = page.locator("body");
+    // Test that CSS/JS interaction works
+    const interactiveSection = page.locator("#interactive");
 
     // Check that styles are applied correctly
-    const backgroundColor = await body.evaluate(
+    const backgroundColor = await interactiveSection.evaluate(
       (el) => getComputedStyle(el).backgroundColor
     );
 
@@ -304,10 +307,10 @@ test.describe("Cross-Browser Compatibility Tests", () => {
     expect(backgroundColor).toBeTruthy();
 
     // Test color changing still works (relies on CSS/JS interaction)
-    await page.click("#colorBtn");
+    await page.click('button:has-text("Change Background Color")');
     await page.waitForTimeout(100);
 
-    const newBackgroundColor = await body.evaluate(
+    const newBackgroundColor = await interactiveSection.evaluate(
       (el) => getComputedStyle(el).backgroundColor
     );
 
