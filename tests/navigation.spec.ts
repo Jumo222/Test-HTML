@@ -13,10 +13,10 @@ test.describe('Navigation Tests', () => {
     await expect(page).toHaveURL('/about');
     await expect(page.locator('nav a.active')).toHaveText('About');
 
-    // Navigate to Addition page
-    await page.click('nav a:has-text("Addition")');
-    await expect(page).toHaveURL('/addition');
-    await expect(page.locator('nav a.active')).toHaveText('Addition');
+    // Navigate to Calculation page
+    await page.click('nav a:has-text("Calculation")');
+    await expect(page).toHaveURL('/calculation');
+    await expect(page.locator('nav a.active')).toHaveText('Calculation');
 
     // Navigate back to Home
     await page.click('nav a:has-text("Home")');
@@ -50,9 +50,9 @@ test.describe('Navigation Tests', () => {
     await page.goto('/about');
     await expect(page.locator('h1')).toHaveText('About This Web Application');
 
-    // Test direct access to addition page
-    await page.goto('/addition');
-    await expect(page.locator('h1')).toContainText('Addition Calculator');
+    // Test direct access to calculation page
+    await page.goto('/calculation');
+    await expect(page.locator('h1')).toContainText('Calculation Page');
 
     // Test direct access to home page
     await page.goto('/');

@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navigation from './components/Navigation'
 import Home from './pages/Home'
 import About from './pages/About'
-import Addition from './pages/Addition'
+import Calculation from './pages/Calculation'
 import Footer from './components/Footer'
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/addition" element={<Addition />} />
+          <Route path="/calculation" element={<Calculation />} />
         </Routes>
         <Footer />
       </div>

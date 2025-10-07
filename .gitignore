@@ -1,7 +1,11 @@
 
-# Playwright
+# Dependencies
 node_modules/
+
+# Build output
+dist/
+
+# Playwright
 /test-results/
 /playwright-report/
-/blob-report/
 /playwright/.cache/

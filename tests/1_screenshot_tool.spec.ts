@@ -76,15 +76,15 @@ test("full page screenshot of index page", async ({ page }, testInfo) => {
   });
 });
 
-test("full page screenshot of addition page", async ({ page }, testInfo) => {
-  await page.goto("/addition");
+test("full page screenshot of calculation page", async ({ page }, testInfo) => {
+  await page.goto("/calculation");
 
   // Wait for the page to fully load
   await page.waitForLoadState("networkidle");
 
-  // Delete previous addition screenshots for this project
+  // Delete previous calculation screenshots for this project
   const screenshotDir = "Screenshot";
-  const pattern = `_addition-screenshot_${testInfo.project.name}.png`;
+  const pattern = `_calculation-screenshot_${testInfo.project.name}.png`;
 
   if (fs.existsSync(screenshotDir)) {
     const files = fs.readdirSync(screenshotDir);
@@ -108,7 +108,7 @@ test("full page screenshot of addition page", async ({ page }, testInfo) => {
 
   // Take a full page screenshot
   await page.screenshot({
-    path: `Screenshot/${timestamp}_addition-screenshot_${testInfo.project.name}.png`,
+    path: `Screenshot/${timestamp}_calculation-screenshot_${testInfo.project.name}.png`,
     fullPage: true,
   });
 });

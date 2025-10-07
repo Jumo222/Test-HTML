@@ -21,8 +21,8 @@ const Navigation: React.FC = () => {
           </Link>
         </li>
         <li>
-          <Link to="/addition" className={isActive("/addition")}>
-            Addition
+          <Link to="/calculation" className={isActive("/calculation")}>
+            Calculation
           </Link>
         </li>
       </ul>
