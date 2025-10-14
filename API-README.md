@@ -1,9 +1,20 @@
-# API Server Documentation
+# REST API Server Documentation
 
 ## Overview
-This project includes a separate API server that demonstrates server-side calculations via webhooks. The Calculation page compares two approaches:
+This project includes a separate REST API server that demonstrates server-side calculations. The Calculation page compares two approaches:
 - **Client-side calculation** (Addition): Performed directly in the browser using JavaScript
-- **Server-side calculation** (Subtraction): Performed on the server via a webhook API
+- **Server-side calculation** (Subtraction): Performed on the server via REST API
+
+## What's the Difference?
+
+### REST API vs Webhook
+- **REST API** (what we built): Your client initiates a request to the server and waits for a response. The client is in control.
+  - Example: Browser → `POST /api/subtract` → Server processes → Returns result → Browser displays it
+
+- **Webhook**: The server initiates a request to your client when an event occurs. The server is in control.
+  - Example: GitHub → detects push event → `POST https://your-app.com/webhook` → Your app processes the event
+
+Our subtraction calculator uses a **REST API** because the browser initiates the request when you click "Calculate Difference".
 
 ## Running the Project
 

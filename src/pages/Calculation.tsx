@@ -35,7 +35,7 @@ const Calculation: React.FC = () => {
     }
   };
 
-  // Webhook-based subtraction calculation
+  // REST API-based subtraction calculation
   const calculateDifference = async () => {
     const num1 = parseFloat(subNum1);
     const num2 = parseFloat(subNum2);
@@ -145,12 +145,12 @@ const Calculation: React.FC = () => {
           </div>
         </section>
 
-        {/* Subtraction Section - Webhook-based calculation */}
+        {/* Subtraction Section - REST API-based calculation */}
         <section className="calculator">
           <div className="calculator-container">
             <h2>Subtract Two Numbers (Server-Side)</h2>
             <p style={{ fontSize: "0.9rem", color: "#666", marginBottom: "1rem" }}>
-              Calculation performed on server via webhook API
+              Calculation performed on server via REST API
             </p>
 
             <div className="input-group">
